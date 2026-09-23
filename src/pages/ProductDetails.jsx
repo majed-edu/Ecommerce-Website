@@ -1,30 +1,21 @@
-import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getProductById } from "../data/Products";
+import { useCart } from "../context/CartContext";
 
 export default function ProductDetails() {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const product = getProductById(id);
+  const { addToCart } = useCart();
 
-  useEffect(() => {
-    const foundProduct = getProductById(id);
-
-    if (!foundProduct) {
-      // إرجاع المستخدم للرئيسية إذا لم يتم العثور على المنتج
-      navigate("/", { replace: true });
-    } else {
-      setProduct(foundProduct);
-      setLoading(false);
-    }
-  }, [id, navigate]);
-
-  if (loading) {
+  if (!product) {
     return (
       <div className="page">
         <div className="container">
-          <div>Loading...</div>
+          <h2>Product Not Found</h2>
+          <p>The product you are looking for does not exist.</p>
+          <Link to="/" className="btn btn-secondary">
+            Back to Home
+          </Link>
         </div>
       </div>
     );
@@ -36,7 +27,7 @@ export default function ProductDetails() {
         <Link
           to="/"
           className="btn btn-secondary"
-          style={{ marginBottom: "20px", display: "inline-block" }}
+          style={{ marginBottom: "20px" }}
         >
           &larr; Back to Products
         </Link>
@@ -44,11 +35,16 @@ export default function ProductDetails() {
           <div className="product-detail-image">
             <img src={product.image} alt={product.name} />
           </div>
-          <div className="product-detail-content">
+          <div>
             <h1 className="product-detail-name">{product.name}</h1>
-            <p className="product-detail-price">${product.price}</p>
+            <p className="product-detail-price">${product.price.toFixed(2)}</p>
             <p className="product-detail-description">{product.description}</p>
-            <button className="btn btn-primary">Add to Cart</button>
+            <button
+              className="btn btn-primary"
+              onClick={() => addToCart(product)}
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>

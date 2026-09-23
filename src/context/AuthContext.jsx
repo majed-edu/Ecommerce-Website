@@ -1,56 +1,53 @@
-import React, { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-export const AuthContext = createContext(null);
+const AuthContext = createContext(null);
 
-export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem("currentUser");
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(() =>
+    JSON.parse(localStorage.getItem("noura-user") || "null"),
+  );
 
-  function signUp(email, password) {
-    // إصلاح الخلل: استخدام مصفوفة فارغة [] كقيمة مبدئية
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    if (users.find((u) => u.email === email)) {
-      return { success: false, message: "User already exists" };
-    }
-
-    const newUser = { email, password };
-    users.push(newUser);
-
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("currentUser", JSON.stringify(newUser));
-    setUser(newUser);
-
-    return { success: true };
-  }
-
-  function login(email, password) {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    const foundUser = users.find(
-      (u) => u.email === email && u.password === password,
+  const login = (email, password) => {
+    const users = JSON.parse(localStorage.getItem("noura-users") || "[]");
+    const found = users.find(
+      (item) => item.email === email && item.password === password,
     );
+    if (!found)
+      return {
+        ok: false,
+        message: "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+      };
+    const session = { name: found.name, email: found.email };
+    localStorage.setItem("noura-user", JSON.stringify(session));
+    setUser(session);
+    return { ok: true };
+  };
 
-    if (!foundUser) {
-      return { success: false, message: "Invalid email or password" };
-    }
+  const register = (name, email, password) => {
+    const users = JSON.parse(localStorage.getItem("noura-users") || "[]");
+    if (users.some((item) => item.email === email))
+      return { ok: false, message: "هذا البريد مسجل مسبقًا." };
+    users.push({ name, email, password });
+    localStorage.setItem("noura-users", JSON.stringify(users));
+    const session = { name, email };
+    localStorage.setItem("noura-user", JSON.stringify(session));
+    setUser(session);
+    return { ok: true };
+  };
 
-    localStorage.setItem("currentUser", JSON.stringify(foundUser));
-    setUser(foundUser);
-
-    return { success: true };
-  }
-
-  function logout() {
-    localStorage.removeItem("currentUser");
+  const logout = () => {
+    localStorage.removeItem("noura-user");
     setUser(null);
-  }
+  };
 
   return (
-    <AuthContext.Provider value={{ signUp, user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function useAuth() {
+  return useContext(AuthContext);
 }

@@ -1,4 +1,6 @@
-const products = [
+export const categories = ["الكل", "إلكترونيات", "مكتب", "إكسسوارات"];
+
+export const products = [
   {
     id: 1,
     name: "Wireless Headphones",
@@ -7,6 +9,9 @@ const products = [
       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop",
     description:
       "Premium wireless headphones with noise cancellation and 30-hour battery life. Perfect for music lovers and professionals.",
+    category: "إلكترونيات",
+    color: "blue",
+    emoji: "🎧",
   },
   {
     id: 2,
@@ -16,6 +21,9 @@ const products = [
       "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop",
     description:
       "Feature-rich smartwatch with fitness tracking, heart rate monitor, and smartphone notifications. Water-resistant design.",
+    category: "إلكترونيات",
+    color: "purple",
+    emoji: "⌚",
   },
   {
     id: 3,
@@ -25,6 +33,9 @@ const products = [
       "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&h=500&fit=crop",
     description:
       "Ergonomic aluminum laptop stand that improves posture and workspace organization. Adjustable height and angle.",
+    category: "مكتب",
+    color: "orange",
+    emoji: "💻",
   },
   {
     id: 4,
@@ -34,6 +45,9 @@ const products = [
       "https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=500&h=500&fit=crop",
     description:
       "RGB backlit mechanical keyboard with Cherry MX switches. Perfect for gaming and typing enthusiasts.",
+    category: "مكتب",
+    color: "pink",
+    emoji: "⌨️",
   },
   {
     id: 5,
@@ -43,6 +57,9 @@ const products = [
       "https://images.unsplash.com/photo-1625842268584-8f3296236761?w=500&h=500&fit=crop",
     description:
       "Multi-port USB-C hub with HDMI, USB 3.0, and SD card reader. Expand your laptop connectivity.",
+    category: "إكسسوارات",
+    color: "green",
+    emoji: "🔌",
   },
   {
     id: 6,
@@ -52,6 +69,9 @@ const products = [
       "https://images.unsplash.com/photo-1527814050087-3793815479db?w=500&h=500&fit=crop",
     description:
       "Ergonomic wireless mouse with precision tracking and long battery life. Comfortable for extended use.",
+    category: "إكسسوارات",
+    color: "yellow",
+    emoji: "🖱️",
   },
   {
     id: 7,
@@ -61,6 +81,9 @@ const products = [
       "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=500&h=500&fit=crop",
     description:
       "Dual monitor stand with adjustable height and tilt. Frees up desk space and improves ergonomics.",
+    category: "مكتب",
+    color: "teal",
+    emoji: "🖥️",
   },
   {
     id: 8,
@@ -70,6 +93,9 @@ const products = [
       "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=500&h=500&fit=crop",
     description:
       "1080p HD webcam with auto-focus and built-in microphone. Ideal for video calls and streaming.",
+    category: "إلكترونيات",
+    color: "blue",
+    emoji: "📷",
   },
 ];
 
